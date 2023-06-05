@@ -80,8 +80,8 @@ public class HelloWorld {
         System.out.println("Values of boolean variable var1 is "+var1);
         System.out.println("Values of boolean variable var2 is "+var2);
 
-        String name = "Srikar";
-        String anotherName = new String("Srikar");
+        String name = "Vishal";
+        String anotherName = new String("Vishal");
         char value = 'c';
         System.out.println("Value of the string name is "+name);
     }
