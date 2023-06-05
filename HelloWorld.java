@@ -36,6 +36,7 @@ public class HelloWorld {
         appleStock.marketCap = 2500;
         appleStock.currentRatio = 2.76;
         System.out.println("Is Apple a good stock? "+appleStock.isGoodStock());
+        appleStock.printStockDetails();
 
         Stock microsoftStock = new Stock();
         microsoftStock.tickerName = "Microsoft Corp";
@@ -43,6 +44,7 @@ public class HelloWorld {
         microsoftStock.marketCap = 2300;
         microsoftStock.currentRatio = 2.1;
         System.out.println("Is Microsoft a good stock? "+microsoftStock.isGoodStock());
+        microsoftStock.printStockDetails();
 
         Stock googleStock = new Stock("GOOGL");
         googleStock.tickerName = "Google";
@@ -50,6 +52,7 @@ public class HelloWorld {
         googleStock.marketCap = 1700;
         googleStock.currentRatio = 1.95;
         System.out.println("Is Google stock good?"+googleStock.isGoodStock());
+        googleStock.printStockDetails();
 
         System.out.println("Print values of marketcap of Apple stock:"+appleStock.marketCap);
         System.out.println("Print values of marketcap of Google stock:"+googleStock.marketCap);

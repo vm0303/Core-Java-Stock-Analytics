@@ -39,5 +39,9 @@ public class Stock {
         else
             return false;
     }
+    public void printStockDetails(){
+        System.out.println("TickerSymbol:"+tickerSymbol+", TickerName:"+tickerName+", MarketCap:"+marketCap+"," +
+                "currentRatio:"+currentRatio);
+    }
 
 }
