@@ -24,10 +24,42 @@ public class Stock {
         this.tickerSymbol = outsidetickerSymbol;
     }
 
-    String tickerSymbol; // Instance variables
-    String tickerName;
-    long marketCap;
-    double currentRatio;
+    private String tickerSymbol; // Instance variables
+    private String tickerName;
+    private long marketCap;
+    private double currentRatio;
+
+    public String getTickerSymbol() {
+        return tickerSymbol;
+    }
+
+    public void setTickerSymbol(String tickerSymbol) {
+        this.tickerSymbol = tickerSymbol;
+    }
+
+    public String getTickerName() {
+        return tickerName;
+    }
+
+    public void setTickerName(String outsideTickerName) {
+        this.tickerName = outsideTickerName;
+    }
+
+    public long getMarketCap() {
+        return marketCap;
+    }
+
+    public void setMarketCap(long outsideMarketCap) {
+        this.marketCap = outsideMarketCap;
+    }
+
+    public double getCurrentRatio() {
+        return currentRatio;
+    }
+
+    public void setCurrentRatio(double outsideCurrentRatio) {
+        this.currentRatio = outsideCurrentRatio;
+    }
 
     /**
      * Method that evaluates whether a given stock is good or not
@@ -40,8 +72,8 @@ public class Stock {
             return false;
     }
     public void printStockDetails(){
-        System.out.println("TickerSymbol:"+tickerSymbol+", TickerName:"+tickerName+", MarketCap:"+marketCap+"," +
-                "currentRatio:"+currentRatio);
+        System.out.println("TickerSymbol: "+tickerSymbol+", TickerName: "+tickerName+", MarketCap: "+marketCap+"," +
+                "currentRatio: "+currentRatio);
     }
 
 }
