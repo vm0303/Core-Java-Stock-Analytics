@@ -38,6 +38,9 @@ public class HelloWorld {
         System.out.println("Is Apple a good stock? "+appleStock.isGoodStock());
         appleStock.printStockDetails();
 
+        System.out.println("Value coming from the Stock class is " + Stock.value);
+        System.out.println("Value of someWords given to static method is " + Stock.printSomeWords("Whatever"));
+
         Stock microsoftStock = new Stock();
         microsoftStock.setTickerName("Microsoft Corp");
         microsoftStock.setTickerSymbol("MSFT");
@@ -45,6 +48,8 @@ public class HelloWorld {
         microsoftStock.setCurrentRatio(2.1);
         System.out.println("Is Microsoft a good stock? "+microsoftStock.isGoodStock());
         microsoftStock.printStockDetails();
+
+
 
         Stock googleStock = new Stock("GOOGL");
         googleStock.setTickerName("Google");

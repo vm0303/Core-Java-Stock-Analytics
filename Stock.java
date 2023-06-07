@@ -4,6 +4,17 @@
  */
 public class Stock {
 
+    static
+    {
+        System.out.println(" Coming from static block.");
+    }
+    static String value = "HelloWhatever";
+    static String printSomeWords(String someWords)
+    {
+        System.out.println("Printing some words from static method " + someWords + someWords);
+        return someWords + someWords;
+    }
+
     /**
      * Constructor that accepts tickerSymbol and TickerName to create Stock Objects
      * @param outsidetickerSymbol - Ticker Symbol for the Stock object
