@@ -37,5 +37,37 @@ public abstract class Account {
         accountBalance = accountBalance.add(amountToCredit);
     }
     public abstract void printAccountDetails();
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("Account{");
+        sb.append("accountNumber='").append(accountNumber).append('\'');
+        sb.append(", accountBalance=").append(accountBalance);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    /**
+     * This written code  overrides the equal method in Java.lang.Object in order to properly
+     * check whether two accounts are same or not.
+     * @param otherObj - This variable compares with the "this" keyword to compare and contrast the string values.
+     * @return
+     */
+    @Override
+    public boolean equals(Object otherObj) {
+        boolean isEqual = false;
+        Account otherAccountObj =null;
+        if (otherObj instanceof Account && otherObj != null)
+        {
+            otherAccountObj = (Account) otherObj;
+            if (this.accountNumber.equals(otherAccountObj.getAccountNumber()))
+            {
+                isEqual =true;
+            }
+        }
+
+        return isEqual;
+
+    }
 }
 

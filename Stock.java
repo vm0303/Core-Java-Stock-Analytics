@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Class that is used to create objects that represent a unique stock in the
  * US Stock Market
@@ -87,4 +89,47 @@ public class Stock {
                 "currentRatio: "+currentRatio);
     }
 
+
+    /**
+     * This generated code overrides the equal method in Java.lang.Object in order to properly
+     * check whether two string values are the same or not.
+     * @param otherObj - This variable compares with the "this" keyword to compare and contrast the string values.
+     * @return
+     */
+ /*   @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stock stock = (Stock) o;
+        return Objects.equals(tickerSymbol, stock.tickerSymbol) && Objects.equals(tickerName, stock.tickerName);
+    }*/
+
+    /**
+     * This written code also overrides the equal method in Java.lang.Object in order to properly
+     * check whether two string values are the same or not.
+     * @param otherObj - This variable compares with the "this" keyword to compare and contrast the string values.
+     * @return
+     */
+    @Override
+    public boolean equals(Object otherObj) {
+        boolean isEqual = false;
+        Stock otherStockObj =null;
+      if (otherObj instanceof Stock && otherObj != null)
+      {
+          otherStockObj = (Stock) otherObj;
+          if (this.tickerSymbol.equals(otherStockObj.getTickerSymbol()) && this.tickerName.equals(otherStockObj.getTickerName()))
+          {
+              isEqual =true;
+          }
+
+      }
+
+      return isEqual;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }

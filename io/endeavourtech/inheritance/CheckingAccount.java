@@ -22,4 +22,17 @@ public class CheckingAccount extends Account
     public void printAccountDetails() {
         System.out.println("Account Number: " + getAccountNumber() + ", Account Balance: " + getAccountBalance()+ ", Cash Back Rate: " + cashBackRate );
     }
+
+    public String toString()
+    {
+        StringBuilder checkingAccountStringRepresentation = new StringBuilder();
+        checkingAccountStringRepresentation
+                .append(" Account Number: ")
+                .append(getAccountNumber())
+                .append(", Account Balance: ")
+                .append(getAccountBalance())
+                .append(", Cash Back rate: ")
+                .append(cashBackRate);
+        return checkingAccountStringRepresentation.toString();
+    }
 }
