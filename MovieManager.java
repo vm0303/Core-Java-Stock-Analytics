@@ -13,18 +13,17 @@ public class MovieManager
         movie2.setMovieYear(new BigDecimal("1998"));
 
         Movie movie3 = new Movie();
-        movie3.setMovieName("Heat");
-        movie3.setMovieYear(new BigDecimal("1995"));
-
-
+        movie3.setMovieName("Gravity");
+        movie3.setMovieYear(new BigDecimal("2013"));
+        
         Movie movie4 = new Movie();
         movie4.setMovieName("Twilight");
         movie4.setMovieYear(new BigDecimal("2008"));
 
 
         Movie movie5 = new Movie();
-        movie5.setMovieName("The Avengers");
-        movie5.setMovieYear(new BigDecimal("1998"));
+        movie5.setMovieName("Megamind");
+        movie5.setMovieYear(new BigDecimal("2014"));
 
 
         if (movie1.equals(movie2))
@@ -36,14 +35,13 @@ public class MovieManager
             System.out.println("Both movies are different because " +
                     "of the years they were released.");
         }
-        if (movie3.equals(null))
+        if (movie3.equals(movie5))
         {
-            System.out.println("Movie 3 is null.");
+            System.out.println("Movie 3 and Movie are the same");
         }
         else
         {
-            System.out.println("Movie 3 is NOT null and has the movie name " + movie3.getMovieName() +
-                    ", which was released in the year " + movie3.getMovieYear());
+            System.out.println("Movie 3 and Movie 5 are NOT the same");
         }
 
 
