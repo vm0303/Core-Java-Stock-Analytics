@@ -1,6 +1,6 @@
 package io.endeavourtech.stocks.vo;
 
-public class SubsectorLookUp
+public class SubsectorLookUp implements Comparable<SubsectorLookUp>
 {
     private int subSectorID;
 
@@ -36,5 +36,21 @@ public class SubsectorLookUp
         return sb.toString();
     }
 
+    /**
+     * Establishes the natural order (SubSector ID descending) for sorting 2 object of the type SubSectorLookup
+     * @param other the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(SubsectorLookUp other) {
+        if (this.getSubSectorID() == other.getSubSectorID())
+        {
+            return 0;
+        } else if (this.getSubSectorID() > other.getSectorID())
+        {
+            return -1;
+        }else
+            return 1;
+    }
 
 }

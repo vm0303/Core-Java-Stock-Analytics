@@ -22,7 +22,7 @@ public class StockFundamentalsDAO extends BaseDao {
                 SELECT 
                     sf.TICKER_SYMBOL, sf.SECTOR_ID, sf.MARKET_CAP, sf.CURRENT_RATIO      
                 FROM
-                    ENDEAVOUR.STOCK_FUNDAMENTALS sf
+                    ENDEAVOUR.STOCK_FUNDAMENTALS sf   
                 """;
 
         try

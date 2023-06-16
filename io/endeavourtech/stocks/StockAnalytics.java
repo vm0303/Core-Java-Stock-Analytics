@@ -9,12 +9,18 @@ public class StockAnalytics
 {
     public static void main(String[] args)
     {
-        LookUpDAO lookUpDAO = new LookUpDAO();
-        StockFundamentalsDAO sfDAO = new StockFundamentalsDAO();
-        MarketAnalyticsService marketAnalyticsService = new MarketAnalyticsService(lookUpDAO);
-        MarketAnalyticsService marketAnalyticsService1= new MarketAnalyticsService(sfDAO);
-        marketAnalyticsService.getSectorsOfTheEconomy();
-        marketAnalyticsService.getSubSectorsOfTheEconomy();
-        marketAnalyticsService1.getStockFundamentalsOfTheEconomy();
+        try(    LookUpDAO lookUpDAO = new LookUpDAO();
+                StockFundamentalsDAO sfDAO = new StockFundamentalsDAO()) { //try with resources
+            //The try method above is common in the industry. Don't forget
+
+            MarketAnalyticsService marketAnalyticsService = new MarketAnalyticsService(lookUpDAO, sfDAO);
+           // marketAnalyticsService.getSectorsOfTheEconomy();
+            // marketAnalyticsService.getSubSectorsOfTheEconomy();
+         marketAnalyticsService.getTopStocks();
+        }
+        catch (StockException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

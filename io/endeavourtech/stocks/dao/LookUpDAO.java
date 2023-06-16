@@ -1,11 +1,12 @@
 package io.endeavourtech.stocks.dao;
 
+import io.endeavourtech.stocks.StockException;
 import io.endeavourtech.stocks.vo.SectorLookUp;
 
 import io.endeavourtech.stocks.vo.SubsectorLookUp;
 
 
-
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,10 +28,14 @@ public class LookUpDAO extends BaseDao
                     SECTOR_NAME
                 FROM
                     ENDEAVOUR.SECTOR_LOOKUP sl    
+           
                 """;
+        //Exception handling
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
+            //Exception handling example
+            //String test = null;
             while (resultSet.next())
             {
                 SectorLookUp sectorLookUp = new SectorLookUp(
@@ -38,12 +43,29 @@ public class LookUpDAO extends BaseDao
                         resultSet.getString("SECTOR_NAME")
                 );
                 sectorLookUpList.add(sectorLookUp);
+                // Exception handling example
+                //test.substring(8);
             }
         }
-        catch (SQLException e)
+        catch ( SQLException e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("In SQLException catch block.");
+            throw new StockException("Unable to fetch the sector data from the database." , e);
+
         }
+        //Repeating this code all the time when closing a SQL connection is unnecessary. See a better method above.
+        /*finally {
+            if(connection!=null)
+            {
+                try {
+                    System.out.println("Closing the connection.");
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }*/
         return sectorLookUpList;
     }
 

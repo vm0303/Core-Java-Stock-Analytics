@@ -1,6 +1,8 @@
 package io.endeavourtech.stocks.vo;
 
-public class StockFundamentalsLookUp {
+import java.util.Objects;
+
+public class StockFundamentalsLookUp implements Comparable<StockFundamentalsLookUp> {
     private String tickerSymbol;
     private int sectorID;
 
@@ -32,6 +34,19 @@ public class StockFundamentalsLookUp {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StockFundamentalsLookUp that = (StockFundamentalsLookUp) o;
+        return Objects.equals(tickerSymbol, that.tickerSymbol);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tickerSymbol);
+    }
+
+    @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("StockFundamentalsLookUp{");
         sb.append("tickerSymbol='").append(tickerSymbol).append('\'');
@@ -40,5 +55,11 @@ public class StockFundamentalsLookUp {
         sb.append(", currentRatio=").append(currentRatio);
         sb.append('}');
         return sb.toString();
+    }
+
+
+    @Override
+    public int compareTo(StockFundamentalsLookUp otherSF) {
+        return this.getTickerSymbol().compareTo(otherSF.getTickerSymbol());
     }
 }
