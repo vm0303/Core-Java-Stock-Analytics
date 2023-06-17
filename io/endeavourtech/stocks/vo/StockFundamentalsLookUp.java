@@ -1,16 +1,17 @@
 package io.endeavourtech.stocks.vo;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class StockFundamentalsLookUp implements Comparable<StockFundamentalsLookUp> {
     private String tickerSymbol;
     private int sectorID;
 
-    private long marketCap;
+    private BigDecimal marketCap;
 
-    private double currentRatio;
+    private BigDecimal currentRatio;
 
-    public StockFundamentalsLookUp(String tickerSymbol, int sectorID, long marketCap, double currentRatio) {
+    public StockFundamentalsLookUp(String tickerSymbol, int sectorID, BigDecimal marketCap, BigDecimal currentRatio) {
         this.tickerSymbol = tickerSymbol;
         this.sectorID = sectorID;
         this.marketCap = marketCap;
@@ -25,11 +26,11 @@ public class StockFundamentalsLookUp implements Comparable<StockFundamentalsLook
         return sectorID;
     }
 
-    public long getMarketCap() {
+    public BigDecimal getMarketCap() {
         return marketCap;
     }
 
-    public double getCurrentRatio() {
+    public BigDecimal getCurrentRatio() {
         return currentRatio;
     }
 

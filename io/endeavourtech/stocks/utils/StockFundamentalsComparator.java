@@ -9,13 +9,7 @@ public class StockFundamentalsComparator implements Comparator<StockFundamentals
 
     @Override
     public int compare(StockFundamentalsLookUp o1, StockFundamentalsLookUp o2) {
-        if (o1.getMarketCap() == o2.getMarketCap())
-        {
-            return 0;
-        } else if (o1.getMarketCap() > o2.getMarketCap())
-        {
-            return -1;
-        }else
-            return 1;
+
+        return o2.getMarketCap().compareTo(o1.getMarketCap());
     }
 }

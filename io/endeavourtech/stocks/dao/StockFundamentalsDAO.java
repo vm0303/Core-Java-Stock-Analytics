@@ -23,6 +23,10 @@ public class StockFundamentalsDAO extends BaseDao {
                     sf.TICKER_SYMBOL, sf.SECTOR_ID, sf.MARKET_CAP, sf.CURRENT_RATIO      
                 FROM
                     ENDEAVOUR.STOCK_FUNDAMENTALS sf   
+                WHERE
+                    MARKET_CAP IS NOT NULL
+                AND
+                    CURRENT_RATIO IS NOT NULL
                 """;
 
         try
@@ -34,8 +38,8 @@ public class StockFundamentalsDAO extends BaseDao {
                 StockFundamentalsLookUp stockFundamentalsLookUp = new StockFundamentalsLookUp(
                         resultSet.getString("TICKER_SYMBOL"),
                         resultSet.getInt("SECTOR_ID"),
-                        resultSet.getLong("MARKET_CAP"),
-                        resultSet.getDouble("CURRENT_RATIO")
+                        resultSet.getBigDecimal("MARKET_CAP"),
+                        resultSet.getBigDecimal("CURRENT_RATIO")
                 );
                 sfLookUpList.add(stockFundamentalsLookUp);
             }

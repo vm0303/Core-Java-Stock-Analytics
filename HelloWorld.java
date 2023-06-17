@@ -1,4 +1,7 @@
 import java.math.BigDecimal;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 public class HelloWorld {
     public static void main(String[] args) {
@@ -13,10 +16,30 @@ public class HelloWorld {
         System.out.println("Sum of i and j is "+(i+j));
 
         int methodOutput =  multiplyInputs(i,j); //Calling code
+
         System.out.println("Multiplication result of i and j is "+methodOutput);
+
+        //Using functional interfaces
+        //Note: MultiplyInputs can be replaced by an BinaryOperator, as it takes 2 int inputs and returns an output.
+        BinaryOperator<Integer> multiplyInputsBO = (number1, number2) -> number1*number2;
+
+        System.out.println("Multiplication result of i and j using a binary operator is "+ multiplyInputsBO.apply(i,j));
+
+
         printMultiplicationOutput(i, j); //Calling code
 
+        BiConsumer<Integer, Integer> printMultiplicationOutputBC = (input1, input2) ->
+        {
+            Integer result = input1* input2;
+            System.out.println("Multiplication Output via a BiConsumer is " + result);
+        };
+        printMultiplicationOutputBC.accept(i,j);
+
         System.out.println("Square of j is "+calculateSquare(j));
+
+        UnaryOperator<Integer> calculateSquareUO = num1 -> num1*num1;
+
+        System.out.println("Square of j by using an unary operator is " +calculateSquareUO.apply(j));
 
         // Write a method that takes 3 inputs and calculates the sum of all of them and prints their sum
         calculateSum(i, j, 4);
