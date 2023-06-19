@@ -16,7 +16,7 @@ public class StockPriceHistoryDAO extends BaseDao
         List<StockPriceHistory> sphLookUpList = new ArrayList<>();
         String sqlQuery =
                         """              
-                         SELECT TICKER_SYMBOL, TRADING_DATE , LOW_PRICE, HIGH_PRICE, VOLUME, CLOSE_PRICE
+                         SELECT TICKER_SYMBOL, TRADING_DATE , LOW_PRICE, HIGH_PRICE, VOLUME
                          FROM ENDEAVOUR.STOCKS_PRICE_HISTORY sph
                          WHERE
                          EXTRACT (YEAR FROM SPH.TRADING_DATE) = 2022
@@ -39,7 +39,6 @@ public class StockPriceHistoryDAO extends BaseDao
                 stockPriceHistory.setSphHighPrice(resultSet.getBigDecimal("HIGH_PRICE"));
                 stockPriceHistory.setSphLowPrice(resultSet.getBigDecimal("LOW_PRICE"));
                 stockPriceHistory.setSphVolume(resultSet.getBigDecimal("VOLUME"));
-                stockPriceHistory.setSphVolume(resultSet.getBigDecimal("CLOSE_PRICE"));
                 sphLookUpList.add(stockPriceHistory);
             }
 

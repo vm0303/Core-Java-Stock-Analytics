@@ -23,8 +23,12 @@ public class StockAnalytics
             MarketAnalyticsService marketAnalyticsService = new MarketAnalyticsService(lookUpDAO, sfDAO, sphDAO);
             //marketAnalyticsService.getSectorsOfTheEconomy();
             // marketAnalyticsService.getSubSectorsOfTheEconomy();
-            marketAnalyticsService.getTopStocks();
+           // marketAnalyticsService.getTopStocks();
             //marketAnalyticsService.sphHistory();
+           marketAnalyticsService.getHealthCareStocks();
+            //marketAnalyticsService.classifyBlueChipsSmallCapStocks();
+            marketAnalyticsService.performSectorAnalysis();
+            marketAnalyticsService.sectorNameAndNumOfStocks();
         }
         catch (StockException e)
         {

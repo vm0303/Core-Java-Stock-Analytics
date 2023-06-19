@@ -10,9 +10,11 @@ import io.endeavourtech.stocks.vo.StockPriceHistory;
 import io.endeavourtech.stocks.vo.SubsectorLookUp;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MarketAnalyticsService
 {
@@ -69,7 +71,7 @@ public class MarketAnalyticsService
         System.out.println("Does PBT exist in the list from the database? " + stockFundamentals.contains(pbtSfLookup));
         System.out.println("Number of records in the Stock Fundamentals table is " + stockFundamentals.size());
         //System.out.println(stockFundamentals);
-        Collections.sort(stockFundamentals);
+      // Collections.sort(stockFundamentals);
        // Collections.sort(stockFundamentals, new StockFundamentalsComparator());
 
         //Anonymous Inner Class - Bad way to write code
@@ -109,8 +111,10 @@ public class MarketAnalyticsService
         stockFundamentals.add(dummyAppleStock);
 
         //Using functional interfaces
+        //Use NullsFirst if you want null to be the lowest value in the list
+        //Use NullsLast in you want null to be the highest value in the list
         stockFundamentals.sort(
-                Comparator.comparing(StockFundamentalsLookUp::getMarketCap).reversed()
+                Comparator.comparing(StockFundamentalsLookUp::getMarketCap, Comparator.nullsFirst(BigDecimal::compareTo))
                 .thenComparing(Comparator.comparing(StockFundamentalsLookUp::getTickerSymbol).reversed())
         );
     }
@@ -191,22 +195,6 @@ public class MarketAnalyticsService
 
         });
 
-        // Sort by Close_Price DESC
-        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-            /**
-             * Establishes an order (Close Price DESC) for sorting 2 object of the type Stock Price History
-             * @param o1 the first object to be compared.
-             * @param o2 the second object to be compared.
-             * @return the compared objects via the compare() method
-             */
-            @Override
-            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-                return o2.getSphClosePrice().compareTo(o1.getSphClosePrice());
-
-            }
-
-
-        });
 
         // Sort by Date DESC
         stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
@@ -227,4 +215,169 @@ public class MarketAnalyticsService
 
 
     }
-}
+
+    //Normal way
+    public void getHealthCareStocks()
+    {
+        List<StockFundamentalsLookUp> allStockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+
+        //Get healthcare stocks the old-fashioned way.
+       allStockFundamentalsLookUpList.forEach(stockFundamentalsLookUp -> {
+           if (stockFundamentalsLookUp.getSectorID() ==10)
+           {
+               System.out.println(stockFundamentalsLookUp);
+           }
+
+       });
+
+       //Using Stream to get Healthcare stocks using Streams
+
+        List<StockFundamentalsLookUp> healthCareList = allStockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getSectorID() == 10) //Intermediate function to filter in only Stocks w/ sectorID 10
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() != null)
+//                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getCurrentRatio() != null) // used to filter and remove any current ratio values that are null
+                .sorted(
+                        Comparator.comparing(StockFundamentalsLookUp::getMarketCap, Comparator.nullsLast(BigDecimal::compareTo)).reversed()
+                                .thenComparing(StockFundamentalsLookUp::getCurrentRatio, Comparator.nullsFirst(BigDecimal::compareTo)))
+
+
+
+                .collect(Collectors.toList()); //Terminal function to return  a list of objects that was filtered out the by the intermediate function
+
+
+        long healthCareStocksCount = allStockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getSectorID() == 10)
+                .count();
+        System.out.println("Number of Healthcare stocks is " + healthCareStocksCount);
+
+
+        // Generate a list of Healthcare Ticker Symbols
+        List<String> healthCareTickersList = allStockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getSectorID() == 10)
+                //Note: DO NOT confuse Map Collection and .map stream. Both work in different ways.
+                .sorted(Comparator.comparing(StockFundamentalsLookUp::getTickerSymbol).reversed())
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getTickerSymbol())//Map intermediate function transform the map
+                .collect(Collectors.toList());
+        System.out.println(healthCareTickersList);
+
+    //Calculate total market cap for all health care stocks
+        BigDecimal totalMarketCap = BigDecimal.ZERO;
+     /*   healthCareList.forEach(stockFundamentalsLookUp -> {
+          //  BigDecimal totalMarketCap = BigDecimal.ZERO; //putting this statement here won't work....Google why
+
+        });*/
+
+        for (StockFundamentalsLookUp fundamentalsLookUp : healthCareList) {
+            totalMarketCap =totalMarketCap.add(fundamentalsLookUp.getMarketCap());
+        }
+        System.out.println("Total Healthcare Market Cap is " + totalMarketCap);
+
+
+        //Calculate total Market cap for health care stocks using Streams
+        Optional<BigDecimal> totalMarketCapOptional = healthCareList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() != null)
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap())
+//                .reduce((b1, b2) -> b1.add(b2)); //using lambda
+                .reduce(BigDecimal::add); //using functional interface
+        if(totalMarketCapOptional.isPresent())
+        {
+            System.out.println("Total health care market cap using reduce is " + totalMarketCapOptional.get());
+        }
+
+
+
+    }
+
+    public void classifyBlueChipsSmallCapStocks()
+    {
+        List<StockFundamentalsLookUp> blueChipsLookUp = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        List<StockFundamentalsLookUp> smallCapLookUp = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+
+
+        //Getting the BlueChips list
+        List<StockFundamentalsLookUp> blueChipsList = blueChipsLookUp.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() != null && stockFundamentalsLookUp.getMarketCap()
+                        .compareTo(new BigDecimal("100000000000")) >= 0)
+                .collect(Collectors.toList());
+
+        System.out.println("Number of Blue chip stocks in the US are " +blueChipsList.size());
+
+        //Getting ticker symbol
+        List<String> blueChipTickersList = blueChipsList.stream()
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getTickerSymbol())
+                .collect(Collectors.toList());
+        System.out.println(blueChipTickersList);
+
+        Optional<BigDecimal> blueChipTotalMarketStock = blueChipsList.stream()
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap())
+                .reduce(BigDecimal::add);
+        blueChipTotalMarketStock.ifPresent(s-> System.out.println("Total Market cap for Blue Chips stocks is " + s));
+
+
+        List<StockFundamentalsLookUp> smallCapList = smallCapLookUp.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() != null)
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap()
+                        .compareTo(new BigDecimal("10000000000")) <= 0 && stockFundamentalsLookUp.getMarketCap()
+                        .compareTo(new BigDecimal("250000000")) > 0)
+                .collect(Collectors.toList());
+
+        System.out.println("Number of small cap stocks in the US are " +smallCapList.size());
+
+
+        List<String> smallCapTickersList = smallCapList.stream()
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getTickerSymbol())
+                .collect(Collectors.toList());
+        System.out.println(smallCapTickersList);
+
+        Optional<BigDecimal> smallCapTotalMarketStocks = smallCapList.stream()
+                .map(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap())
+                .reduce(BigDecimal::add);
+        smallCapTotalMarketStocks.ifPresent(s-> System.out.println("Total market cap for small chip stocks is " + s));
+
+
+        //1. Create two different lists for Bluechips and SmallCap stocks
+        //2. Get tickerSymbol list for BlueChips and Small Cap Stocks
+        //3. Calculate total MarketCap for BlueChips and Small cap stocks.
+    }
+
+    public void performSectorAnalysis()
+    {
+        List<StockFundamentalsLookUp> allStockFundamentalsLookUp = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+
+        Map<Integer, List<StockFundamentalsLookUp>> sectorIDByMap = allStockFundamentalsLookUp.stream()
+//                .collect(Collectors.groupingBy(stockFundamentalsLookUp -> stockFundamentalsLookUp.getSectorID()));
+        .collect(Collectors.groupingBy(StockFundamentalsLookUp::getSectorID));
+
+        System.out.println(sectorIDByMap);
+    }
+
+
+    /*
+    "Print sector names and number of stocks in each sector:
+    Healthcare: 510
+    Basic Materials: 108
+    Financial Services: 486
+    Industrials: 391
+    Technology: 368
+    ...
+    Sector lookup data is available from the lookupsDao
+    Stock fundamentals data is available from the stockFundamentsDao"
+     */
+
+    public void sectorNameAndNumOfStocks()
+    {
+        List<SectorLookUp> sectorNameList = lookUpDAO.getAllSectorLookUps();
+        List <StockFundamentalsLookUp> numOfStocksList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        Map<Integer, List<StockFundamentalsLookUp>> sectorIDByMap = numOfStocksList.stream().collect(Collectors.groupingBy(StockFundamentalsLookUp::getSectorID));
+
+        sectorNameList
+                .forEach(sectorLookUp -> {
+                    int numOfStocksBySector = sectorIDByMap.containsKey(sectorLookUp.getSectorID()) ? sectorIDByMap.get(sectorLookUp.getSectorID()).size() : 0;
+                    System.out.println(sectorLookUp.getSectorName() + ": " + numOfStocksBySector);
+                });
+
+        }
+
+
+    }
+

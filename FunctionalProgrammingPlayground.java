@@ -1,4 +1,6 @@
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.*;
 
 public class FunctionalProgrammingPlayground {
@@ -54,6 +56,32 @@ public class FunctionalProgrammingPlayground {
         //Consumer using Functional Interface
         Consumer<String> printConsumerUsingFunctionInterface= System.out::println;
         printConsumerUsingFunctionInterface.accept("Output of my name using a consumer interface WITHOUT a lambda function: "+ str1);
+
+
+        //optional method
+        String sample = "Vishal";
+        String sampleValue = null;
+
+        //Optionals are used to hand;e code and variables that could be null.
+        Optional<String> sampleOptionalObject = Optional.ofNullable(sample);
+        if(sampleOptionalObject.isPresent())
+            sampleValue = sampleOptionalObject.get();
+        else
+            sampleValue =sampleOptionalObject.orElse("Test");
+        System.out.println("Value of value sample variable is " + sampleValue);
+
+        sampleOptionalObject.ifPresent(s-> System.out.println("In Optionals Lambda, the length of the string is " + s.length()));
+
+        //Immutable list= can't be modified
+        List<Integer> integerList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Optional<Integer> integerListOptional = integerList.stream()
+                .reduce((a, b) -> a * b);
+        integerListOptional.ifPresent(integer -> System.out.println("Total number of values in List is " + integer));
+
+
+
+
+
     }
 
     private static void printStringValue(String inputStr1) {

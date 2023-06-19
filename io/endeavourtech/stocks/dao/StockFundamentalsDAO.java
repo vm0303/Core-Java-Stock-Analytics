@@ -23,10 +23,6 @@ public class StockFundamentalsDAO extends BaseDao {
                     sf.TICKER_SYMBOL, sf.SECTOR_ID, sf.MARKET_CAP, sf.CURRENT_RATIO      
                 FROM
                     ENDEAVOUR.STOCK_FUNDAMENTALS sf   
-                WHERE
-                    MARKET_CAP IS NOT NULL
-                AND
-                    CURRENT_RATIO IS NOT NULL
                 """;
 
         try
