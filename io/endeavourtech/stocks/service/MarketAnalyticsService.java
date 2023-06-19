@@ -468,14 +468,7 @@ public class MarketAnalyticsService
     }
 
 
-    public void calculateAvgMarketCapBySubsector()
-    {
-        List<StockFundamentalsLookUp> allStockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
-        List<SubsectorLookUp> allSubSectorsLookupsList = lookUpDAO.getAllSubSectorsLookups();
 
-        allSubSectorsLookupsList.stream()
-                .collect(Collectors.toList())
-    }
 }
 
 
