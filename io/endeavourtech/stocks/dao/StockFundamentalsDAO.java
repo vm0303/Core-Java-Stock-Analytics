@@ -20,7 +20,7 @@ public class StockFundamentalsDAO extends BaseDao {
         String sqlQuery =
                 """
                 SELECT 
-                    sf.TICKER_SYMBOL, sf.SECTOR_ID, sf.MARKET_CAP, sf.CURRENT_RATIO      
+                    sf.TICKER_SYMBOL, sf.SECTOR_ID, sf.SUBSECTOR_ID, sf.MARKET_CAP, sf.CURRENT_RATIO      
                 FROM
                     ENDEAVOUR.STOCK_FUNDAMENTALS sf   
                 """;
@@ -34,6 +34,7 @@ public class StockFundamentalsDAO extends BaseDao {
                 StockFundamentalsLookUp stockFundamentalsLookUp = new StockFundamentalsLookUp(
                         resultSet.getString("TICKER_SYMBOL"),
                         resultSet.getInt("SECTOR_ID"),
+                        resultSet.getInt("SUBSECTOR_ID"),
                         resultSet.getBigDecimal("MARKET_CAP"),
                         resultSet.getBigDecimal("CURRENT_RATIO")
                 );

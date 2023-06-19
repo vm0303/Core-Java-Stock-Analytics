@@ -67,7 +67,7 @@ public class MarketAnalyticsService
     public void getTopStocks()
     {
         List<StockFundamentalsLookUp> stockFundamentals = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
-        StockFundamentalsLookUp pbtSfLookup = new StockFundamentalsLookUp("PBT", 20, new BigDecimal(1160559360), new BigDecimal(0.0) );
+        StockFundamentalsLookUp pbtSfLookup = new StockFundamentalsLookUp("PBT", 20, 123, new BigDecimal(1160559360), new BigDecimal(0.0) );
         System.out.println("Does PBT exist in the list from the database? " + stockFundamentals.contains(pbtSfLookup));
         System.out.println("Number of records in the Stock Fundamentals table is " + stockFundamentals.size());
         //System.out.println(stockFundamentals);
@@ -107,7 +107,7 @@ public class MarketAnalyticsService
 //        });
 
 
-        StockFundamentalsLookUp dummyAppleStock = new StockFundamentalsLookUp("SAAPLE", 13, new BigDecimal("2729798795265"), new BigDecimal("7.5"));
+        StockFundamentalsLookUp dummyAppleStock = new StockFundamentalsLookUp("SAAPLE", 13, 123,new BigDecimal("2729798795265"), new BigDecimal("7.5"));
         stockFundamentals.add(dummyAppleStock);
 
         //Using functional interfaces
@@ -367,15 +367,117 @@ public class MarketAnalyticsService
     public void sectorNameAndNumOfStocks()
     {
         List<SectorLookUp> sectorNameList = lookUpDAO.getAllSectorLookUps();
-        List <StockFundamentalsLookUp> numOfStocksList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
-        Map<Integer, List<StockFundamentalsLookUp>> sectorIDByMap = numOfStocksList.stream().collect(Collectors.groupingBy(StockFundamentalsLookUp::getSectorID));
+        List <StockFundamentalsLookUp> stockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        Map<Integer, List<StockFundamentalsLookUp>> sectorIDByMap = stockFundamentalsLookUpList.stream().collect(Collectors.groupingBy(StockFundamentalsLookUp::getSectorID));
 
-        sectorNameList
+        sectorNameList.stream()
                 .forEach(sectorLookUp -> {
                     int numOfStocksBySector = sectorIDByMap.containsKey(sectorLookUp.getSectorID()) ? sectorIDByMap.get(sectorLookUp.getSectorID()).size() : 0;
                     System.out.println(sectorLookUp.getSectorName() + ": " + numOfStocksBySector);
                 });
-
         }
+
+    public void anotherWayToGetNumOfStocks()
+    {
+        List<SectorLookUp> sectorNameList = lookUpDAO.getAllSectorLookUps();
+        List <StockFundamentalsLookUp> stockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        Map<Integer, Integer> countsBySectorID =new HashMap<>();
+        Map<String, Integer> finalOutputMap = new HashMap<>();
+
+        Map<Integer, String> sectorIDStringMap = sectorNameList.stream()
+                .collect(Collectors.toMap(
+                        SectorLookUp::getSectorID,
+                        SectorLookUp::getSectorName
+                ));
+
+        stockFundamentalsLookUpList.stream().forEach(stockFundamentalsLookUp ->
+        {
+            int count = countsBySectorID.computeIfAbsent(stockFundamentalsLookUp.getSectorID(), key -> 0) + 1;
+            countsBySectorID.put(stockFundamentalsLookUp.getSectorID(), count);
+
+        });
+
+
+     sectorIDStringMap.forEach((sectorID, sectorName) ->
+     {
+         finalOutputMap.put(sectorName, countsBySectorID.get(sectorID));
+     });
+
+        System.out.println(finalOutputMap);
     }
+
+    /**
+     * This method gives the total market cap for every subsector in the economy.
+     * The output looks like the following:
+     * Airports & Services: 105 B
+     * Auto Dealerships: 71 B
+     */
+    public void calculateTotalMarketCapBySubSector()
+    {
+        List<StockFundamentalsLookUp> allStockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        List<SubsectorLookUp> allSubSectorsLookupsList = lookUpDAO.getAllSubSectorsLookups();
+        Map<String, BigDecimal> finalOutputMap = new HashMap<>();
+
+
+        Map<Integer, List<StockFundamentalsLookUp>> collectionOfSubsectorLookupsByIDMap = allStockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() !=null)
+                .collect(Collectors.groupingBy(StockFundamentalsLookUp::getSubsectorID));
+
+
+        Map<Integer, String> subsectorIDByNameMap = allSubSectorsLookupsList.stream()
+                .collect(Collectors.toMap(
+                        SubsectorLookUp::getSubSectorID,
+                        SubsectorLookUp::getSubSectorName
+                ));
+
+
+         collectionOfSubsectorLookupsByIDMap.forEach((subSectorID, stockList) ->
+         {
+             Optional<BigDecimal> totalMarketCapForEachSubsector = stockList.stream()
+                     .map(StockFundamentalsLookUp::getMarketCap)
+                     .reduce(BigDecimal::add);
+             if(totalMarketCapForEachSubsector.isPresent())
+             {
+                 finalOutputMap.put(subsectorIDByNameMap.get(subSectorID), totalMarketCapForEachSubsector.get());
+             }
+         });
+        System.out.println(finalOutputMap);
+
+
+    }
+    public void anotherWayToCalculateTotalMarketCapByMarketCapBySubsector()
+    {
+        List<StockFundamentalsLookUp> allStockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        List<SubsectorLookUp> allSubSectorsLookupsList = lookUpDAO.getAllSubSectorsLookups();
+        Map<Integer, String> subsectorIDByNameMap = allSubSectorsLookupsList.stream()
+                .collect(Collectors.toMap(
+                        SubsectorLookUp::getSubSectorID,
+                        SubsectorLookUp::getSubSectorName
+                ));
+        Map<String, BigDecimal> finalOutputMap = new HashMap<>();
+
+
+        allStockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getMarketCap() != null)
+                .forEach(stockFundamentalsLookUp -> {
+                    BigDecimal totalMkCp = finalOutputMap.computeIfAbsent(subsectorIDByNameMap.get(stockFundamentalsLookUp.getSubsectorID()), key -> BigDecimal.ZERO);
+                    totalMkCp =totalMkCp.add(stockFundamentalsLookUp.getMarketCap());
+                    finalOutputMap.put(subsectorIDByNameMap.get(stockFundamentalsLookUp.getSubsectorID()), totalMkCp);
+                });
+        System.out.println(finalOutputMap);
+    }
+
+
+    public void calculateAvgMarketCapBySubsector()
+    {
+        List<StockFundamentalsLookUp> allStockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+        List<SubsectorLookUp> allSubSectorsLookupsList = lookUpDAO.getAllSubSectorsLookups();
+
+        allSubSectorsLookupsList.stream()
+                .collect(Collectors.toList())
+    }
+}
+
+
+
 

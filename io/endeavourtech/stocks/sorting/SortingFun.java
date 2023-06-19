@@ -9,10 +9,10 @@ import java.util.List;
 
 public class SortingFun {
     public static void main(String[] args) {
-        StockFundamentalsLookUp appleStock = new StockFundamentalsLookUp("AAPL", 15, new BigDecimal("150"), new BigDecimal("4.5"));
-        StockFundamentalsLookUp microsoftStock = new StockFundamentalsLookUp("MSFT", 12, new BigDecimal("150"), new BigDecimal("3.7"));
-        StockFundamentalsLookUp googleStock = new StockFundamentalsLookUp("GOOGL", 14, new BigDecimal("95"), new BigDecimal("2.5"));
-        StockFundamentalsLookUp teslaStock = new StockFundamentalsLookUp("TSLA", 11, new BigDecimal("65"), new BigDecimal("9.5"));
+        StockFundamentalsLookUp appleStock = new StockFundamentalsLookUp("AAPL", 15, 124, new BigDecimal("150"), new BigDecimal("4.5"));
+        StockFundamentalsLookUp microsoftStock = new StockFundamentalsLookUp("MSFT", 12, 143, new BigDecimal("150"), new BigDecimal("3.7"));
+        StockFundamentalsLookUp googleStock = new StockFundamentalsLookUp("GOOGL", 14, 142, new BigDecimal("95"), new BigDecimal("2.5"));
+        StockFundamentalsLookUp teslaStock = new StockFundamentalsLookUp("TSLA", 11, 212, new BigDecimal("65"), new BigDecimal("9.5"));
 
         //Immutable list...can't sort or be changed
         //List<StockFundamentalsLookUp> someSampleImmutableList = List.of(appleStock,microsoftStock,googleStock,teslaStock);

@@ -25,10 +25,14 @@ public class StockAnalytics
             // marketAnalyticsService.getSubSectorsOfTheEconomy();
            // marketAnalyticsService.getTopStocks();
             //marketAnalyticsService.sphHistory();
-           marketAnalyticsService.getHealthCareStocks();
+            // marketAnalyticsService.getHealthCareStocks();
             //marketAnalyticsService.classifyBlueChipsSmallCapStocks();
-            marketAnalyticsService.performSectorAnalysis();
-            marketAnalyticsService.sectorNameAndNumOfStocks();
+          //  marketAnalyticsService.performSectorAnalysis();
+          //  marketAnalyticsService.sectorNameAndNumOfStocks();
+            marketAnalyticsService.anotherWayToGetNumOfStocks();
+            marketAnalyticsService.calculateTotalMarketCapBySubSector();
+            marketAnalyticsService.anotherWayToCalculateTotalMarketCapByMarketCapBySubsector();
+            marketAnalyticsService.calculateAvgMarketCapBySubsector();
         }
         catch (StockException e)
         {

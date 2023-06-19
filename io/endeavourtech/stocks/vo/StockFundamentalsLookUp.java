@@ -7,13 +7,18 @@ public class StockFundamentalsLookUp implements Comparable<StockFundamentalsLook
     private String tickerSymbol;
     private int sectorID;
 
+    private int subsectorID;
+
     private BigDecimal marketCap;
 
     private BigDecimal currentRatio;
 
-    public StockFundamentalsLookUp(String tickerSymbol, int sectorID, BigDecimal marketCap, BigDecimal currentRatio) {
+
+
+    public StockFundamentalsLookUp(String tickerSymbol, int sectorID, int subsectorID, BigDecimal marketCap, BigDecimal currentRatio) {
         this.tickerSymbol = tickerSymbol;
         this.sectorID = sectorID;
+        this.subsectorID =subsectorID;
         this.marketCap = marketCap;
         this.currentRatio = currentRatio;
     }
@@ -26,6 +31,9 @@ public class StockFundamentalsLookUp implements Comparable<StockFundamentalsLook
         return sectorID;
     }
 
+    public int getSubsectorID() {
+        return subsectorID;
+    }
     public BigDecimal getMarketCap() {
         return marketCap;
     }
