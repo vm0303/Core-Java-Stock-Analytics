@@ -2,11 +2,12 @@ package io.endeavourtech.stocks.vo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class StockPriceHistory
 {
     private String sphTickerSymbol;
-    private Date sphDate;
+    private LocalDate sphDate;
 
     private BigDecimal sphHighPrice;
 
@@ -32,11 +33,11 @@ public class StockPriceHistory
         this.sphTickerSymbol = sphTickerSymbol;
     }
 
-    public Date getSphDate() {
+    public LocalDate getSphDate() {
         return sphDate;
     }
 
-    public void setSphDate(Date sphDate) {
+    public void setSphDate(LocalDate sphDate) {
         this.sphDate = sphDate;
     }
 

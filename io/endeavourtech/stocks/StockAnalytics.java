@@ -6,6 +6,8 @@ import io.endeavourtech.stocks.dao.StockFundamentalsDAO;
 import io.endeavourtech.stocks.dao.StockPriceHistoryDAO;
 import io.endeavourtech.stocks.service.MarketAnalyticsService;
 
+import java.time.LocalDate;
+
 public class StockAnalytics
 {
     public static void main(String[] args)
@@ -29,10 +31,11 @@ public class StockAnalytics
             //marketAnalyticsService.classifyBlueChipsSmallCapStocks();
           //  marketAnalyticsService.performSectorAnalysis();
           //  marketAnalyticsService.sectorNameAndNumOfStocks();
-            marketAnalyticsService.anotherWayToGetNumOfStocks();
-            marketAnalyticsService.calculateTotalMarketCapBySubSector();
-            marketAnalyticsService.anotherWayToCalculateTotalMarketCapByMarketCapBySubsector();
-            marketAnalyticsService.calculateAvgMarketCapBySubsector();
+           // marketAnalyticsService.anotherWayToGetNumOfStocks();
+           // marketAnalyticsService.calculateTotalMarketCapBySubSector();
+           // marketAnalyticsService.anotherWayToCalculateTotalMarketCapByMarketCapBySubsector();
+           marketAnalyticsService.getSPHBasedOnHistory("AAPL", LocalDate.now().minusYears(5), LocalDate.now());
+           marketAnalyticsService.streamsPlayground();
         }
         catch (StockException e)
         {

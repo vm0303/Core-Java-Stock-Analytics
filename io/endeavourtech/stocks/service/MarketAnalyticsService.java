@@ -10,6 +10,7 @@ import io.endeavourtech.stocks.vo.StockPriceHistory;
 import io.endeavourtech.stocks.vo.SubsectorLookUp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -119,102 +120,102 @@ public class MarketAnalyticsService
         );
     }
 
-    public void sphHistory() {
-        List<StockPriceHistory> stockPriceHistories = stockPriceHistoryDAO.sphListMethod();
-        System.out.println("Number of records in the Stock Fundamentals table dating to Dec 2022 is " + stockPriceHistories.size());
-        System.out.println(stockPriceHistories);
-
-        //Sort by Ticker symbol DESC
-       stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-           /**
-            * Establishes an order (Ticker symbol descending) for sorting 2 object of the type Stock Price History
-            * @param o1 the first object to be compared.
-            * @param o2 the second object to be compared.
-            * @return the compared objects via the compare() method
-            */
-           @Override
-           public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-               return o2.getSphTickerSymbol().compareTo(o1.getSphTickerSymbol());
-
-           }
-
-
-
-       });
-
-        //Sort by Low price ASC
-        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-            /**
-             * Establishes an order (Low Price Ascending) for sorting 2 object of the type Stock Price History
-             * @param o1 the first object to be compared.
-             * @param o2 the second object to be compared.
-             * @return the compared objects via the compare() method
-             */
-            @Override
-            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-
-                return o1.getSphLowPrice().compareTo(o2.getSphLowPrice());
-
-            }
-
-
-
-        });
-
-        //Sort by High Price DESC
-        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-            /**
-             * Establishes an order (High Price Descending) for sorting 2 object of the type Stock Price History
-             * @param o1 the first object to be compared.
-             * @param o2 the second object to be compared.
-             * @return the compared objects via the compare() method
-             */
-            @Override
-            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-                return o2.getSphHighPrice().compareTo(o1.getSphHighPrice());
-
-            }
-
-
-        });
-
-        //Sort by Volume DESC
-        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-            /**
-             * Establishes an order (Volume Descending) for sorting 2 object of the type Stock Price History
-             * @param o1 the first object to be compared.
-             * @param o2 the second object to be compared.
-             * @return the compared objects via the compare() method
-             */
-            @Override
-            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-                return o2.getSphVolume().compareTo(o1.getSphVolume());
-
-            }
-
-
-        });
-
-
-        // Sort by Date DESC
-        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
-            /**
-             * Establishes an order (Date Descending) for sorting 2 object of the type Stock Price History
-             * @param o1 the first object to be compared.
-             * @param o2 the second object to be compared.
-             * @return the compared objects via the compare() method
-             */
-            @Override
-            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
-                return o2.getSphDate().compareTo(o1.getSphDate());
-
-            }
-
-
-        });
-
-
-    }
+//    public void sphHistory() {
+//        List<StockPriceHistory> stockPriceHistories = stockPriceHistoryDAO.sphListMethod();
+//        System.out.println("Number of records in the Stock Fundamentals table dating to Dec 2022 is " + stockPriceHistories.size());
+//        System.out.println(stockPriceHistories);
+//
+//        //Sort by Ticker symbol DESC
+//       stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
+//           /**
+//            * Establishes an order (Ticker symbol descending) for sorting 2 object of the type Stock Price History
+//            * @param o1 the first object to be compared.
+//            * @param o2 the second object to be compared.
+//            * @return the compared objects via the compare() method
+//            */
+//           @Override
+//           public int compare(StockPriceHistory o1, StockPriceHistory o2) {
+//               return o2.getSphTickerSymbol().compareTo(o1.getSphTickerSymbol());
+//
+//           }
+//
+//
+//
+//       });
+//
+//        //Sort by Low price ASC
+//        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
+//            /**
+//             * Establishes an order (Low Price Ascending) for sorting 2 object of the type Stock Price History
+//             * @param o1 the first object to be compared.
+//             * @param o2 the second object to be compared.
+//             * @return the compared objects via the compare() method
+//             */
+//            @Override
+//            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
+//
+//                return o1.getSphLowPrice().compareTo(o2.getSphLowPrice());
+//
+//            }
+//
+//
+//
+//        });
+//
+//        //Sort by High Price DESC
+//        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
+//            /**
+//             * Establishes an order (High Price Descending) for sorting 2 object of the type Stock Price History
+//             * @param o1 the first object to be compared.
+//             * @param o2 the second object to be compared.
+//             * @return the compared objects via the compare() method
+//             */
+//            @Override
+//            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
+//                return o2.getSphHighPrice().compareTo(o1.getSphHighPrice());
+//
+//            }
+//
+//
+//        });
+//
+//        //Sort by Volume DESC
+//        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
+//            /**
+//             * Establishes an order (Volume Descending) for sorting 2 object of the type Stock Price History
+//             * @param o1 the first object to be compared.
+//             * @param o2 the second object to be compared.
+//             * @return the compared objects via the compare() method
+//             */
+//            @Override
+//            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
+//                return o2.getSphVolume().compareTo(o1.getSphVolume());
+//
+//            }
+//
+//
+//        });
+//
+//
+//        // Sort by Date DESC
+//        stockPriceHistories.sort(new Comparator<StockPriceHistory>() {
+//            /**
+//             * Establishes an order (Date Descending) for sorting 2 object of the type Stock Price History
+//             * @param o1 the first object to be compared.
+//             * @param o2 the second object to be compared.
+//             * @return the compared objects via the compare() method
+//             */
+//            @Override
+//            public int compare(StockPriceHistory o1, StockPriceHistory o2) {
+//                return o2.getSphDate().compareTo(o1.getSphDate());
+//
+//            }
+//
+//
+//        });
+//
+//
+//    }
 
     //Normal way
     public void getHealthCareStocks()
@@ -467,10 +468,137 @@ public class MarketAnalyticsService
         System.out.println(finalOutputMap);
     }
 
+    /*
+    "For a given ticker, like 'AAPL' get stock history for past 5 years
+     For each year, print the lowest closing price"
+     */
+
+    public void getSPHBasedOnHistory(String tickerSymbol, LocalDate fromDate, LocalDate toDate)
+    {
+
+
+        List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.sphListMethod(tickerSymbol, fromDate, toDate);
+
+        Map<Integer, List<StockPriceHistory>> stockPriceByTradingYearMap = stockPriceHistoryList.stream()
+                .collect(Collectors.groupingBy(stockPriceHistory -> stockPriceHistory.getSphDate().getYear()));
+
+        stockPriceByTradingYearMap.forEach((tradingYear, priceHistoryList)->{
+            Optional<StockPriceHistory> minClosePriceOptional = priceHistoryList.stream()
+                    .filter(stockPriceHistory -> stockPriceHistory.getSphClosePrice() != null)
+                    .min(Comparator.comparing(StockPriceHistory::getSphClosePrice));
+
+            minClosePriceOptional.ifPresent(stockPriceHistory -> {
+                System.out.println("For the trading year " + tradingYear + "the lowest close price for " + tickerSymbol + " is " + minClosePriceOptional.get().getSphClosePrice());
+            });
+
+
+        });
+
+
+    }
+
+    public void streamsPlayground()
+    {
+        List<StockFundamentalsLookUp> stockFundamentalsLookUpList = stockFundamentalsDAO.getAllStockFundamentalsLookUp();
+
+        List<SectorLookUp> allSectorLookUpsList = lookUpDAO.getAllSectorLookUps();
+
+
+        //Count of stocks will null current ratio
+        long countOfNullCurrentRatios = stockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getCurrentRatio() == null)
+                .count();
+
+        System.out.println("Number of stocks with Null current ratios: " + countOfNullCurrentRatios);
+
+        //.map() function - get a lost of all tickers
+        List<String> tickerSymbolList = stockFundamentalsLookUpList.stream()
+                .map(StockFundamentalsLookUp::getTickerSymbol)
+                .collect(Collectors.toList());
+
+        System.out.println(tickerSymbolList);
+
+
+        //Using Collectors.joining
+        String tickerSymbolsString = stockFundamentalsLookUpList.stream()
+                .map(StockFundamentalsLookUp::getTickerSymbol)
+                .collect(Collectors.joining("|"));
+
+        System.out.println(tickerSymbolsString);
+
+        //sorted() function
+
+        List<StockFundamentalsLookUp> currentRatioMkCpSortedList = stockFundamentalsLookUpList.stream().
+                filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getCurrentRatio() != null
+                        && stockFundamentalsLookUp.getMarketCap() != null)
+                .sorted(Comparator.comparing(StockFundamentalsLookUp::getCurrentRatio).reversed()
+                        .thenComparing(StockFundamentalsLookUp::getMarketCap))
+                .collect(Collectors.toList());
+
+        System.out.println(currentRatioMkCpSortedList);
+
+
+        Optional<StockFundamentalsLookUp> topStockByCurrentRatio  = stockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getCurrentRatio() != null)
+                .sorted(Comparator.comparing(StockFundamentalsLookUp::getCurrentRatio).reversed())
+                .findFirst();
+        topStockByCurrentRatio.ifPresent(s -> System.out.println("Stock with highest current ratio is: " + s));
+
+        //limit method -Top 5 current ratio list
+
+        List<StockFundamentalsLookUp> top5StocksBasedOnCurrentRatio = stockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getCurrentRatio() != null)
+                .sorted(Comparator.comparing(StockFundamentalsLookUp::getCurrentRatio).reversed())
+                .limit(5)
+                .collect(Collectors.toList());
+
+        System.out.println("Top 5 stocks by current ratio are " + top5StocksBasedOnCurrentRatio);
+
+        //toMap() - one-to-one mapping based on sector ID and name
+
+        allSectorLookUpsList.stream()
+                .collect(Collectors.toMap(
+                        SectorLookUp::getSectorID,
+                        SectorLookUp::getSectorName
+                ));
+
+        //Ensure there are no duplicated values
+
+        allSectorLookUpsList.add(new SectorLookUp(11, "Somevalue"));
+        allSectorLookUpsList.add(new SectorLookUp(11, "XYZ"));
+
+        Map<Integer, String> anotherSectorLookUpMap = allSectorLookUpsList.stream()
+                .collect(Collectors.toMap(
+                        SectorLookUp::getSectorID,
+                        SectorLookUp::getSectorName,
+                        (val1, va2) -> val1
+                ));
+
+
+        //groupingBy() - one to many mapping
+
+        Map<Integer, List<StockFundamentalsLookUp>> stocksListBySectorID = stockFundamentalsLookUpList.stream()
+                .collect(Collectors.groupingBy(StockFundamentalsLookUp::getSectorID));
+
+        System.out.println("List of stocks grouped by sector ID: " + stocksListBySectorID);
+
+        Optional<BigDecimal>  totalMkCpOfAllHealthcareStocks = stockFundamentalsLookUpList.stream()
+                .filter(stockFundamentalsLookUp -> stockFundamentalsLookUp.getSectorID() == 10 && stockFundamentalsLookUp.getMarketCap() != null)
+                .map(StockFundamentalsLookUp::getMarketCap)
+                .reduce(BigDecimal::add);
+
+        totalMkCpOfAllHealthcareStocks.ifPresent(value -> System.out.println("Total market cap of Health Care stocks is " + value));
+
+    }
+
+
+
+
+
+
 
 
 }
-
 
 
 
