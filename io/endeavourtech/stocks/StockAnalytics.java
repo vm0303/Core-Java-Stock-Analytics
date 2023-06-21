@@ -34,8 +34,8 @@ public class StockAnalytics
            // marketAnalyticsService.anotherWayToGetNumOfStocks();
            // marketAnalyticsService.calculateTotalMarketCapBySubSector();
            // marketAnalyticsService.anotherWayToCalculateTotalMarketCapByMarketCapBySubsector();
-           marketAnalyticsService.getSPHBasedOnHistory("AAPL", LocalDate.now().minusYears(5), LocalDate.now());
-           marketAnalyticsService.streamsPlayground();
+           marketAnalyticsService.priceHistoryAnalysis("AAPL", LocalDate.now().minusYears(5), LocalDate.now());
+           //marketAnalyticsService.streamsPlayground();
         }
         catch (StockException e)
         {

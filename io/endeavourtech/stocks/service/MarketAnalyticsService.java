@@ -473,29 +473,20 @@ public class MarketAnalyticsService
      For each year, print the lowest closing price"
      */
 
-    public void getSPHBasedOnHistory(String tickerSymbol, LocalDate fromDate, LocalDate toDate)
-    {
-
-
-        List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.sphListMethod(tickerSymbol, fromDate, toDate);
-
-        Map<Integer, List<StockPriceHistory>> stockPriceByTradingYearMap = stockPriceHistoryList.stream()
-                .collect(Collectors.groupingBy(stockPriceHistory -> stockPriceHistory.getSphDate().getYear()));
-
-        stockPriceByTradingYearMap.forEach((tradingYear, priceHistoryList)->{
+    public void priceHistoryAnalysis(String tickerSymbol, LocalDate fromDate, LocalDate toDate){
+        List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.getStockPriceHistory(tickerSymbol, fromDate, toDate);
+        Map<Integer, List<StockPriceHistory>> stocksListByTradingYearMap = stockPriceHistoryList.stream()
+                .collect(Collectors.groupingBy(stocksPriceHistory -> stocksPriceHistory.getTradingDate().getYear()));
+        stocksListByTradingYearMap.forEach((tradingYear, priceHistoryList) -> {
             Optional<StockPriceHistory> minClosePriceOptional = priceHistoryList.stream()
-                    .filter(stockPriceHistory -> stockPriceHistory.getSphClosePrice() != null)
-                    .min(Comparator.comparing(StockPriceHistory::getSphClosePrice));
-
-            minClosePriceOptional.ifPresent(stockPriceHistory -> {
-                System.out.println("For the trading year " + tradingYear + "the lowest close price for " + tickerSymbol + " is " + minClosePriceOptional.get().getSphClosePrice());
+                    .filter(stocksPriceHistory -> stocksPriceHistory.getClosePrice() != null)
+                    .min(Comparator.comparing(StockPriceHistory::getClosePrice));
+            minClosePriceOptional.ifPresent(stocksPriceHistory -> {
+                System.out.println("For the Trading Year "+tradingYear+", the min Close Price for Apple Stock is "+minClosePriceOptional.get().getClosePrice());
             });
-
-
         });
-
-
     }
+
 
     public void streamsPlayground()
     {

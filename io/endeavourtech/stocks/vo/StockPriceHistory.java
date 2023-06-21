@@ -1,80 +1,62 @@
+
+
 package io.endeavourtech.stocks.vo;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class StockPriceHistory
-{
-    private String sphTickerSymbol;
-    private LocalDate sphDate;
+public class StockPriceHistory {
+    private String tickerSymbol;
+    private LocalDate tradingDate;
+    private BigDecimal openPrice;
+    private BigDecimal closePrice;
+    private long volume;
 
-    private BigDecimal sphHighPrice;
-
-    private BigDecimal sphLowPrice;
-
-    private BigDecimal sphVolume;
-
-    private BigDecimal sphClosePrice;
-
-    public BigDecimal getSphClosePrice() {
-        return sphClosePrice;
+    public StockPriceHistory(String tickerSymbol, LocalDate tradingDate, BigDecimal openPrice, BigDecimal closePrice, long volume) {
+        this.tickerSymbol = tickerSymbol;
+        this.tradingDate = tradingDate;
+        this.openPrice = openPrice;
+        this.closePrice = closePrice;
+        this.volume = volume;
     }
 
-    public void setSphClosePrice(BigDecimal sphClosePrice) {
-        this.sphClosePrice = sphClosePrice;
+    public String getTickerSymbol() {
+        return tickerSymbol;
     }
 
-    public String getSphTickerSymbol() {
-        return sphTickerSymbol;
+    public LocalDate getTradingDate() {
+        return tradingDate;
     }
 
-    public void setSphTickerSymbol(String sphTickerSymbol) {
-        this.sphTickerSymbol = sphTickerSymbol;
+    public BigDecimal getOpenPrice() {
+        return openPrice;
     }
 
-    public LocalDate getSphDate() {
-        return sphDate;
+    public BigDecimal getClosePrice() {
+        return closePrice;
     }
 
-    public void setSphDate(LocalDate sphDate) {
-        this.sphDate = sphDate;
+    public long getVolume() {
+        return volume;
     }
-
-    public BigDecimal getSphHighPrice() {
-        return sphHighPrice;
-    }
-
-    public void setSphHighPrice(BigDecimal sphHighPrice) {
-        this.sphHighPrice = sphHighPrice;
-    }
-
-    public BigDecimal getSphLowPrice() {
-        return sphLowPrice;
-    }
-
-    public void setSphLowPrice(BigDecimal sphLowPrice) {
-        this.sphLowPrice = sphLowPrice;
-    }
-
-    public BigDecimal getSphVolume() {
-        return sphVolume;
-    }
-
-    public void setSphVolume(BigDecimal sphVolume) {
-        this.sphVolume = sphVolume;
-    }
-
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("StockPriceHistory{");
-        sb.append("sphTickerSymbol='").append(sphTickerSymbol).append('\'');
-        sb.append(", sphDate=").append(sphDate);
-        sb.append(", sphLowPrice=").append(sphLowPrice);
-        sb.append(", sphHighPrice=").append(sphHighPrice);
-        sb.append(", sphVolume=").append(sphVolume);
-        sb.append('}');
-        return sb.toString();
+        return "StocksPriceHistory{" + "tickerSymbol='" + tickerSymbol + '\'' + ", tradingDate=" + tradingDate + ", openPrice=" + openPrice + ", closePrice=" + closePrice + ", volume=" + volume + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StockPriceHistory that = (StockPriceHistory) o;
+        return Objects.equals(tickerSymbol, that.tickerSymbol) && Objects.equals(tradingDate, that.tradingDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tickerSymbol, tradingDate);
     }
 }
+
