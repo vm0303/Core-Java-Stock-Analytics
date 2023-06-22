@@ -36,7 +36,12 @@ public class StockPriceHistoryDAO extends BaseDao {
             preparedStatement.setDate(3, Date.valueOf(toDate));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                StockPriceHistory stocksPriceHistory = new StockPriceHistory(resultSet.getString("TICKER_SYMBOL"), resultSet.getDate("TRADING_DATE").toLocalDate(), resultSet.getBigDecimal("OPEN_PRICE"), resultSet.getBigDecimal("CLOSE_PRICE"), resultSet.getLong("VOLUME"));
+                StockPriceHistory stocksPriceHistory = new StockPriceHistory(
+                        resultSet.getString("TICKER_SYMBOL"),
+                        resultSet.getDate("TRADING_DATE").toLocalDate(),
+                        resultSet.getBigDecimal("OPEN_PRICE"),
+                        resultSet.getBigDecimal("CLOSE_PRICE"),
+                        resultSet.getLong("VOLUME"));
                 stocksPriceHistoryList.add(stocksPriceHistory);
             }
         } catch (SQLException e) {
