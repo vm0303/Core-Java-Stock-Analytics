@@ -605,31 +605,6 @@ public class MarketAnalyticsService
                });
 
 
-
-
-
-
-
-
-
-                    /*
-                    List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.getStockPriceHistory(tickerSymbol, fromDate, toDate);
-        Map<Integer, List<StockPriceHistory>> stocksListByTradingYearMap = stockPriceHistoryList.stream()
-                .collect(Collectors.groupingBy(stocksPriceHistory -> stocksPriceHistory.getTradingDate().getYear()));
-        stocksListByTradingYearMap.forEach((tradingYear, priceHistoryList) -> {
-            Optional<StockPriceHistory> minClosePriceOptional = priceHistoryList.stream()
-                    .filter(stocksPriceHistory -> stocksPriceHistory.getClosePrice() != null)
-                    .min(Comparator.comparing(StockPriceHistory::getClosePrice));
-            minClosePriceOptional.ifPresent(stocksPriceHistory -> {
-                System.out.println("For the Trading Year "+tradingYear+", the min Close Price for Apple Stock is "+minClosePriceOptional.get().getClosePrice());
-            });
-        });
-                     */
-
-
-
-
-
     }
 
 
