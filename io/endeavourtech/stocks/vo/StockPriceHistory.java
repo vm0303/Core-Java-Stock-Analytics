@@ -9,16 +9,27 @@ import java.util.Objects;
 public class StockPriceHistory {
     private String tickerSymbol;
     private LocalDate tradingDate;
+
     private BigDecimal openPrice;
+
+    private BigDecimal highPrice;
+
+
     private BigDecimal closePrice;
     private long volume;
 
-    public StockPriceHistory(String tickerSymbol, LocalDate tradingDate, BigDecimal openPrice, BigDecimal closePrice, long volume) {
+    public StockPriceHistory(String tickerSymbol, LocalDate tradingDate, BigDecimal openPrice, BigDecimal highPrice, BigDecimal closePrice, long volume) {
         this.tickerSymbol = tickerSymbol;
         this.tradingDate = tradingDate;
         this.openPrice = openPrice;
+        this.highPrice = highPrice;
         this.closePrice = closePrice;
         this.volume = volume;
+    }
+
+
+    public BigDecimal getHighPrice() {
+        return highPrice;
     }
 
     public String getTickerSymbol() {
@@ -40,6 +51,8 @@ public class StockPriceHistory {
     public long getVolume() {
         return volume;
     }
+
+
 
     @Override
     public String toString() {

@@ -36,6 +36,8 @@ public class StockAnalytics
            // marketAnalyticsService.anotherWayToCalculateTotalMarketCapByMarketCapBySubsector();
            marketAnalyticsService.priceHistoryAnalysis("AAPL", LocalDate.now().minusYears(5), LocalDate.now());
            //marketAnalyticsService.streamsPlayground();
+
+            marketAnalyticsService.avgHighPriceByYearBasedOnTickerSymbol("MSFT", LocalDate.now().minusYears(5), LocalDate.now());
         }
         catch (StockException e)
         {

@@ -21,7 +21,8 @@ public class StockPriceHistoryDAO extends BaseDao {
                 SELECT                 		
                 sph.TICKER_SYMBOL,                 		
                 sph.TRADING_DATE,                 		
-                sph.OPEN_PRICE,                 		
+                sph.OPEN_PRICE, 
+                sph.HIGH_PRICE,                		
                 sph.CLOSE_PRICE,                 		
                 sph.VOLUME                 	
                 FROM ENDEAVOUR.STOCKS_PRICE_HISTORY sph                 	
@@ -40,6 +41,7 @@ public class StockPriceHistoryDAO extends BaseDao {
                         resultSet.getString("TICKER_SYMBOL"),
                         resultSet.getDate("TRADING_DATE").toLocalDate(),
                         resultSet.getBigDecimal("OPEN_PRICE"),
+                        resultSet.getBigDecimal("HIGH_PRICE"),
                         resultSet.getBigDecimal("CLOSE_PRICE"),
                         resultSet.getLong("VOLUME"));
                 stocksPriceHistoryList.add(stocksPriceHistory);
@@ -49,5 +51,7 @@ public class StockPriceHistoryDAO extends BaseDao {
         }
         return stocksPriceHistoryList;
     }
+
+
 }
 

@@ -10,6 +10,7 @@ import io.endeavourtech.stocks.vo.StockPriceHistory;
 import io.endeavourtech.stocks.vo.SubsectorLookUp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
@@ -579,6 +580,55 @@ public class MarketAnalyticsService
                 .reduce(BigDecimal::add);
 
         totalMkCpOfAllHealthcareStocks.ifPresent(value -> System.out.println("Total market cap of Health Care stocks is " + value));
+
+    }
+
+    public void avgHighPriceByYearBasedOnTickerSymbol(String tickerSymbol, LocalDate fromDate, LocalDate toDate)
+    {
+
+        List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.getStockPriceHistory(tickerSymbol, fromDate, toDate);
+        Map<Integer, BigDecimal> averageHighPriceByYearMap = stockPriceHistoryList.stream()
+                .collect(Collectors.groupingBy(
+                        stockPriceHistory -> stockPriceHistory.getTradingDate().getYear(),
+                        Collectors.mapping(StockPriceHistory::getHighPrice,
+                                Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+                ));
+
+
+
+        System.out.println("Average High prices for the past 5 year");
+               averageHighPriceByYearMap.forEach((theYear, theSum)->
+               {
+                   BigDecimal avgHighPrice = theSum.divide(BigDecimal.valueOf(stockPriceHistoryList.size()), 2, BigDecimal.ROUND_HALF_UP);
+                   System.out.println("In the year " + theYear + ", the stock " + tickerSymbol +
+                           "'s average high price was/is " + avgHighPrice);
+               });
+
+
+
+
+
+
+
+
+
+                    /*
+                    List<StockPriceHistory> stockPriceHistoryList = stockPriceHistoryDAO.getStockPriceHistory(tickerSymbol, fromDate, toDate);
+        Map<Integer, List<StockPriceHistory>> stocksListByTradingYearMap = stockPriceHistoryList.stream()
+                .collect(Collectors.groupingBy(stocksPriceHistory -> stocksPriceHistory.getTradingDate().getYear()));
+        stocksListByTradingYearMap.forEach((tradingYear, priceHistoryList) -> {
+            Optional<StockPriceHistory> minClosePriceOptional = priceHistoryList.stream()
+                    .filter(stocksPriceHistory -> stocksPriceHistory.getClosePrice() != null)
+                    .min(Comparator.comparing(StockPriceHistory::getClosePrice));
+            minClosePriceOptional.ifPresent(stocksPriceHistory -> {
+                System.out.println("For the Trading Year "+tradingYear+", the min Close Price for Apple Stock is "+minClosePriceOptional.get().getClosePrice());
+            });
+        });
+                     */
+
+
+
+
 
     }
 
